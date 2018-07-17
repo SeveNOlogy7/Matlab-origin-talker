@@ -1,0 +1,18 @@
+classdef OriginWorkSheet
+    %ORIGINWORKSHEET Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        name
+        originObj
+    end
+    
+    methods
+        function obj = OriginWorkSheet(originObj)
+            obj.originObj = originObj;
+            obj.name = 
+        end
+    end
+    
+end
+

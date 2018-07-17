@@ -1,0 +1,4 @@
+# ignore origin project files
+*.opj
+
+/OriginExamples

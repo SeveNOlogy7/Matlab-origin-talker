@@ -1,10 +1,16 @@
 clear
 clc
-opj = OriginProject.open('C:\Dropbox (The University of Manchester)\Matlab-origin-talker\OriginProjectTest.opj')
 
-% opj.get('isNew')
-% opj.get('filepath')
-% opj.set('isNew',true)
+%% Project functions
+opj = OriginProject.open([pwd,'\OriginProjectTest.opj'])
+
+isNew = opj.get('isNew')
+filepath = opj.get('filepath')
+isNew = opj.set('isNew',true).get('isNew')
+
+% Origin Object test
+name = opj.getOriginAttribute('Name')
+visible = opj.setOriginAttribute('Visible',true).getOriginAttribute('Visible')
 
 %% Folder functions
 % get root folder
@@ -69,8 +75,15 @@ worksheet1.setData([X,cos(X)],0,2);
 % get data
 data = worksheet1.getData(ARRAYDATAFORMAT.ARRAY2D_NUMERIC);
 
-% set and get LongName
+% set and get LongName, units, comments
 LongName = worksheet1.setColLongNames({'a','b','c','d'}).getColLongNames
+
+% set and get LongName, units, comments
+Units = worksheet1.setColUnits({'e','f','g','h'}).getColUnits
+
+% set and get LongName, units, comments
+comments = worksheet1.setColComments({'i','j','k','l'}).getColComments
+
 % 
 % opj.close;
 % clear

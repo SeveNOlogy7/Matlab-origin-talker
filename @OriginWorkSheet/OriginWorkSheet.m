@@ -4,7 +4,7 @@ classdef OriginWorkSheet < OriginObject
     
     properties
         name
-        colNum   
+        colNum
     end
     
     methods (Access = public)
@@ -29,7 +29,7 @@ classdef OriginWorkSheet < OriginObject
                 % getData(obj, dataFormat, nRowStart, nColStart, nRowEnd, nColEnd)
                 data = obj.originObj.invoke('GetData', nRowStart, ...
                     nColStart, nRowEnd, nColEnd, uint32(dataFormat));
-            end 
+            end
         end
         
         function obj = setData(obj,data,nRowOffset,nColOffset)
@@ -87,7 +87,7 @@ classdef OriginWorkSheet < OriginObject
         function obj = setColTypes(obj, colTypes)
             obj.setColAttributes('Type',num2cell(uint32(colTypes)));
         end
-               
+        
         function longNames = getColLongNames(obj)
             longNames = obj.getColAttributes('LongName');
         end
@@ -96,7 +96,23 @@ classdef OriginWorkSheet < OriginObject
             obj.setColAttributes('LongName',longNames);
         end
         
-    end 
+        function Comments = getColComments(obj)
+            Comments = obj.getColAttributes('Comments');
+        end
+        
+        function obj = setColComments(obj, Comments)
+            obj.setColAttributes('Comments',Comments);
+        end
+        
+        function Units = getColUnits(obj)
+            Units = obj.getColAttributes('Units');
+        end
+        
+        function obj = setColUnits(obj, Units)
+            obj.setColAttributes('Units',Units);
+        end
+        
+    end
     
     methods (Access = private)
         

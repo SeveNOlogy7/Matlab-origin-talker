@@ -89,11 +89,12 @@ classdef OriginWorkSheet < OriginObject
             obj.setColColAttributes('Type',num2cell(uint32(colTypes)));
         end
                
-        function colTypes = getColLongNames(obj)
+        function longNames = getColLongNames(obj)
+            longNames = obj.getColAttributes('LongName');
         end
         
-        function obj = setColLongNames(obj, colTypes)
-            
+        function obj = setColLongNames(obj, longNames)
+            obj.setColColAttributes('LongName',longNames);
         end
         
     end 
@@ -114,7 +115,7 @@ classdef OriginWorkSheet < OriginObject
         function obj = setColColAttributes(obj, attributeName, values)
             cols = obj.getColumns;
             for ii = 1:length(cols)
-                if ii < length(values)
+                if ii <= length(values)
                     cols(ii).invoke(attributeName,values{ii});
                 end
             end

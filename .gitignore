@@ -1,4 +1,7 @@
 # ignore origin project files
 *.opj
 
+# ignore matlab auto saving
+*.asv
+
 /OriginExamples

@@ -68,6 +68,9 @@ worksheet1.setData([X,cos(X)],0,2);
 
 % get data
 data = worksheet1.getData(ARRAYDATAFORMAT.ARRAY2D_NUMERIC);
+
+% set and get LongName
+LongName = worksheet1.setColLongNames({'a','b','c','d'}).getColLongNames
 % 
 % opj.close;
 % clear

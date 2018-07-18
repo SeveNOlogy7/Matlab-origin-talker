@@ -3,6 +3,7 @@ classdef OriginObject < handle
     %   Detailed explanation goes here
     
     properties
+        originObj
     end
     
     methods
@@ -10,10 +11,17 @@ classdef OriginObject < handle
             val = eval(['obj.',name]);
         end
         
-        function set(obj,name,val) %#ok<INUSL>
+        function obj = set(obj,name,val)
             eval(['obj.',name,' = ',char(string(val))]);
+        end
+        
+        function val = getOriginAttribute(obj, attributeName)
+            val = obj.originObj.invoke(attributeName);
+        end
+        
+        function obj = setOriginAttribute(obj, attributeName, val)
+            obj.originObj.invoke(attributeName, val);
         end
     end
     
 end
-

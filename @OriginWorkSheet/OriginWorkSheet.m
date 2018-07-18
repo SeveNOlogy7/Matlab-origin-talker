@@ -4,8 +4,7 @@ classdef OriginWorkSheet < OriginObject
     
     properties
         name
-        colNum
-        originObj
+        colNum   
     end
     
     methods (Access = public)
@@ -123,4 +122,3 @@ classdef OriginWorkSheet < OriginObject
         
     end
 end
-

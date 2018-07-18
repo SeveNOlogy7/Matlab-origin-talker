@@ -6,7 +6,6 @@ classdef OriginFolder < OriginObject
         name
         parent
         isRoot
-        originFolderObj
     end
     
     methods (Access = public, Static = true)
@@ -20,21 +19,21 @@ classdef OriginFolder < OriginObject
                 obj.name = [];
                 obj.parent = [];
                 obj.isRoot = [];
-                obj.originFolderObj = [];
+                obj.originObj = [];
                 % OriginFolder(originFolderObj,parent,isRoot)
             else
                 obj.name = originFolderObj.get('Name');
                 obj.parent = parent;
                 obj.isRoot = isRoot;
-                obj.originFolderObj = originFolderObj;
+                obj.originObj = originFolderObj;
             end
         end
         
         function delete(obj)
             % delete this folder
             % if originFolderObj is empty there is no need to call 'destroy'
-            if ~isempty(obj.originFolderObj)
-                obj.originFolderObj.invoke('Destroy');
+            if ~isempty(obj.originObj)
+                obj.originObj.invoke('Destroy');
             end
             
             % call super class delete method
@@ -42,16 +41,16 @@ classdef OriginFolder < OriginObject
         end
         
         function [subFolders,Pages] =  ls(obj)
-            originFoldersObj = obj.originFolderObj.invoke('Folders');
+            originFoldersObj = obj.originObj.invoke('Folders');
             count = originFoldersObj.get('count');
             if count >0
-                %                 subFolders(1,count) = OriginFolder();
+                % subFolders(1,count) = OriginFolder();
                 Pages = zeros(1,count);
                 for ii = 1:count
                     % get original origin Folder object
-                    originFolderObj = invoke(originFoldersObj,'item',uint8(ii-1)); %#ok<PROP>
+                    originFolderObj = invoke(originFoldersObj,'item',uint8(ii-1));
                     % save to OriginFolder Object
-                    subFolders(ii) = OriginFolder(originFolderObj,obj,false); %#ok<AGROW,PROP>
+                    subFolders(ii) = OriginFolder(originFolderObj,obj,false); %#ok<AGROW>
                 end
             else
                 % there is not Null in Matlab
@@ -74,7 +73,7 @@ classdef OriginFolder < OriginObject
                         catch e
                             if strcmp(e.identifier,'OriginFolder:pathNotFound')
                                 % folder does not exist (or TODO path is invalid)
-                                originFoldersObj = newFolder.originFolderObj.invoke('Folders');
+                                originFoldersObj = newFolder.originObj.invoke('Folders');
                                 % Todo: some reg here
                                 originFoldersObj.invoke('Add',S{ii});
                                 % get the real origin folder
@@ -126,7 +125,7 @@ classdef OriginFolder < OriginObject
         end
         
         function p = toPath(obj)
-            p = obj.originFolderObj.invoke('path');
+            p = obj.originObj.invoke('path');
         end
         
     end

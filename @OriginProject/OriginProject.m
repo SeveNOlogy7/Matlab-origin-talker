@@ -4,7 +4,6 @@ classdef OriginProject < OriginObject
     
     properties
         filepath
-        originObj
         isNew
         rootFolder
         workingDirectory
@@ -73,7 +72,7 @@ classdef OriginProject < OriginObject
                 % pwd(obj,f)
                 if class(f) == 'OriginFolder'
                     obj.workingDirectory = f;
-                    obj.originObj.invoke('ActiveFolder',f.get('originFolderObj'));
+                    obj.originObj.invoke('ActiveFolder',f.get('originObj'));
                 else
                     error('Not a Origin Folder');
                 end
@@ -83,7 +82,7 @@ classdef OriginProject < OriginObject
                 % always get origin Folder Object in case other references of
                 % current_working_directory destroy originFolderObj outside
                 % this fuction
-                obj.workingDirectory.originFolderObj = obj.originObj.invoke('ActiveFolder');
+                obj.workingDirectory.originObj = obj.originObj.invoke('ActiveFolder');
                 out = obj.workingDirectory;
             end
         end

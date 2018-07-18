@@ -4,6 +4,7 @@ classdef OriginWorkSheet < OriginObject
     
     properties
         name
+        colNum
         originObj
     end
     
@@ -12,10 +13,113 @@ classdef OriginWorkSheet < OriginObject
         function obj = OriginWorkSheet(originObj)
             obj.originObj = originObj;
             obj.name = originObj.invoke('Name');
+            obj.colNum = originObj.invoke('Cols');
         end
         
+        function data = getData(obj, dataFormat, nRowStart, nColStart, nRowEnd, nColEnd)
+            if nargin == 2
+                % getData(obj,dataFormat) get all data
+                data = obj.originObj.invoke('GetData', 0, 0, -1, -1,...
+                    uint32(dataFormat));
+            elseif nargin == 4
+                % getData(obj, dataFormat, nRowStart, nColStart) get data
+                % with offset
+                data = obj.originObj.invoke('GetData', nRowStart, ...
+                    nRowStart, -1, -1, uint32(dataFormat));
+            elseif nargin == 6
+                % getData(obj, dataFormat, nRowStart, nColStart, nRowEnd, nColEnd)
+                data = obj.originObj.invoke('GetData', nRowStart, ...
+                    nColStart, nRowEnd, nColEnd, uint32(dataFormat));
+            end 
+        end
+        
+        function obj = setData(obj,data,nRowOffset,nColOffset)
+            dataColNum = size(data,2);
+            if nargin == 2
+                % setData(obj,data)
+                if dataColNum > obj.getColNum
+                    obj.setColNum(dataColNum);
+                end
+                obj.originObj.invoke('SetData', data, 0, 0);
+            elseif nargin == 4
+                % setData(obj,data,offsetX,offsetY)
+                if dataColNum + nColOffset > obj.getColNum
+                    obj.setColNum(dataColNum + nColOffset);
+                end
+                obj.originObj.invoke('SetData', data, nRowOffset, nColOffset);
+            end
+        end
+        
+        function obj = setName(obj,name)
+            obj.name = name;
+            obj.originObj.invoke('Name', name);
+        end
+        
+        function name = getName(obj)
+            obj.name = obj.originObj.invoke('Name');
+            name = obj.name;
+        end
+        
+        function obj = setColNum(obj,colNum)
+            obj.colNum = colNum;
+            obj.originObj.invoke('Cols',colNum);
+        end
+        
+        function colNum = getColNum(obj)
+            obj.colNum = obj.originObj.invoke('Cols');
+            colNum = obj.colNum;
+        end
+        
+        function cols = getColumns(obj)
+            cols_temp = invoke(obj.originObj, 'Columns');
+            if obj.getColNum>0
+                for ii = 1:obj.getColNum
+                    cols(ii) = cols_temp.invoke('Item',uint8(ii-1)); %#ok<AGROW>
+                end
+            else
+                cols = [];
+            end
+        end
+        
+        function colTypes = getColTypes(obj)
+            colTypes = COLTYPES(cell2mat(obj.getColAttributes('Type')));
+        end
+        
+        function obj = setColTypes(obj, colTypes)
+            obj.setColColAttributes('Type',num2cell(uint32(colTypes)));
+        end
+               
+        function colTypes = getColLongNames(obj)
+        end
+        
+        function obj = setColLongNames(obj, colTypes)
+            
+        end
+        
+    end 
+    
+    methods (Access = private)
+        
+        function colAttributes = getColAttributes(obj,attributeName)
+            cols = obj.getColumns;
+            if ~isempty(cols)
+                for ii = 1:length(cols)
+                    colAttributes{ii} = cols(ii).invoke(attributeName); %#ok<AGROW>
+                end
+            else
+                colAttributes = {};
+            end
+        end
+        
+        function obj = setColColAttributes(obj, attributeName, values)
+            cols = obj.getColumns;
+            for ii = 1:length(cols)
+                if ii < length(values)
+                    cols(ii).invoke(attributeName,values{ii});
+                end
+            end
+        end
         
     end
-    
 end
 

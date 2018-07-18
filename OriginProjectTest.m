@@ -48,7 +48,26 @@ catch e
     end
 end
 
-%% Page functions
+%% Worksheet functions
+colNum = worksheet1.getColNum
+columns = worksheet1.getColumns;
+size(columns)
 
+colNum = colNum+2
+worksheet1.setColNum(colNum);
+columns = worksheet1.getColumns;
+size(columns)
+
+colTypes = worksheet1.getColTypes
+colTypes = worksheet1.setColTypes([3,0,3,0]).getColTypes
+
+% generate data
+X = (1:1:100)'/180*pi;
+worksheet1.setData([X,sin(X)]);
+worksheet1.setData([X,cos(X)],0,2);
+
+% get data
+data = worksheet1.getData(ARRAYDATAFORMAT.ARRAY2D_NUMERIC);
+% 
 % opj.close;
 % clear

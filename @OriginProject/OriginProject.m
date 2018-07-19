@@ -22,6 +22,9 @@ classdef OriginProject < OriginObject
             opj.originObj = actxserver('Origin.ApplicationSI');
             opj.isNew = true;
             
+            % Waiting for X-FUnction startup to be ready
+            invoke(opj.originObj, 'Execute','sec -poc 3.5');
+            
             % Make the Origin session visible
             invoke(opj.originObj, 'Execute', 'doc -mc 1;');
             
@@ -131,6 +134,19 @@ classdef OriginProject < OriginObject
             end           
             worksheetObj = invoke(obj.originObj, 'FindWorksheet', strBook);
             worksheet = OriginWorkSheet(worksheetObj);
+        end
+        
+        function graph = createGraph (obj,graphName, templateName)
+            if nargin == 2
+                % createPage(obj,bookName)
+                strGraph = obj.createPage(PAGETYPES.OPT_GRAPH, graphName, 'Origin');
+            elseif nargin == 3
+                % createPage(obj,bookName,templateName)
+                strGraph = obj.createPage(PAGETYPES.OPT_GRAPH, graphName, templateName);
+            end           
+            graphLayerObj = invoke(obj.originObj, 'FindGraphLayer', strGraph);
+            graphObj = invoke(graphLayerObj,'Parent');
+            graph = OriginGraph(graphObj);
         end
         
     end

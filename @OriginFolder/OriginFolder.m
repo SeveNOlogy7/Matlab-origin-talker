@@ -30,14 +30,14 @@ classdef OriginFolder < OriginObject
         end
         
         function delete(obj)
-            % delete this folder
-            % if originFolderObj is empty there is no need to call 'destroy'
-            if ~isempty(obj.originObj)
-                obj.originObj.invoke('Destroy');
-            end
-            
-            % call super class delete method
-            delete@OriginObject(obj);
+%             % delete this folder
+%             % if originFolderObj is empty there is no need to call 'destroy'
+%             if ~isempty(obj.originObj)
+%                 obj.originObj.invoke('Destroy');
+%             end
+%             
+%             % call super class delete method
+%             delete@OriginObject(obj);
         end
         
         function [subFolders,Pages] =  ls(obj)

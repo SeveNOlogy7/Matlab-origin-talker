@@ -37,13 +37,17 @@ opj.pwd.toPath
 opj.cd(rf);
 opj.pwd.toPath
 % createpage in active directory (pwd)
-worksheet1 = opj.createWorksheet('test');
+worksheet1 = opj.createWorksheet('worksheet1');
+% createpage in active directory (pwd)
+graph1 = opj.createGraph('graph1');
 
 opj.cd(folderpath);
 opj.pwd.toPath
 
 % createpage in active directory (pwd)
-worksheet2 = opj.createWorksheet('test');
+worksheet2 = opj.createWorksheet('worksheet2');
+% createpage in active directory (pwd)
+graph2 = opj.createGraph('graph2');
 
 % Test cd error
 try
@@ -84,6 +88,7 @@ Units = worksheet1.setColUnits({'e','f','g','h'}).getColUnits
 % set and get LongName, units, comments
 comments = worksheet1.setColComments({'i','j','k','l'}).getColComments
 
-% 
-% opj.close;
+%% Graph functions
+
+opj.close;
 % clear

@@ -124,29 +124,42 @@ classdef OriginProject < OriginObject
             end
         end
         
-        function worksheet = createWorksheet(obj,bookName,templateName)
+        function worksheetPage = createWorksheetPage(obj,bookName,templateName)
             if nargin == 2
                 % createPage(obj,bookName)
                 strBook = obj.createPage(PAGETYPES.OPT_WORKSHEET, bookName, 'Origin');
             elseif nargin == 3
                 % createPage(obj,bookName,templateName)
                 strBook = obj.createPage(PAGETYPES.OPT_WORKSHEET, bookName, templateName);
-            end           
-            worksheetObj = invoke(obj.originObj, 'FindWorksheet', strBook);
-            worksheet = OriginWorkSheet(worksheetObj);
+            end
+            % find worksheetPage by name
+            worksheetPages = obj.originObj.invoke('WorksheetPages');
+            for ii = 1:worksheetPages.invoke('count')
+                worksheetPageObj = worksheetPages.invoke('Item',uint8(ii-1));
+                if strcmp(worksheetPageObj.invoke('Name'),strBook)
+                    worksheetPage = OriginWorkSheetPage(worksheetPageObj);
+                    return
+                end
+            end
         end
         
-        function graph = createGraph (obj,graphName, templateName)
+        function graphPage = createGraphPage(obj,graphName, templateName)
             if nargin == 2
                 % createPage(obj,bookName)
                 strGraph = obj.createPage(PAGETYPES.OPT_GRAPH, graphName, 'Origin');
             elseif nargin == 3
                 % createPage(obj,bookName,templateName)
                 strGraph = obj.createPage(PAGETYPES.OPT_GRAPH, graphName, templateName);
-            end           
-            graphLayerObj = invoke(obj.originObj, 'FindGraphLayer', strGraph);
-            graphObj = invoke(graphLayerObj,'Parent');
-            graph = OriginGraph(graphObj);
+            end
+            % find graphPage by name
+            graphPages = obj.originObj.invoke('GraphPages');
+            for ii = 1:graphPages.invoke('count')
+                graphPageObj = graphPages.invoke('Item',uint8(ii-1));
+                if strcmp(graphPageObj.invoke('Name'),strGraph)
+                    graphPage = OriginGraphPage(graphPageObj);
+                    return
+                end
+            end
         end
         
     end

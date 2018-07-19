@@ -3,14 +3,14 @@ classdef OriginWorkSheetPage < OriginPage
     %   Detailed explanation goes here
     
     properties
-        name
-        layerNum
     end
     
     methods (Access = public)
+        
         function obj = OriginWorkSheetPage(originObj)
-            
+            obj = obj@OriginPage(originObj);
         end
+        
     end
     
 end

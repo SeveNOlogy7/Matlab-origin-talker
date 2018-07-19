@@ -37,17 +37,17 @@ opj.pwd.toPath
 opj.cd(rf);
 opj.pwd.toPath
 % createpage in active directory (pwd)
-worksheet1 = opj.createWorksheet('worksheet1');
+worksheet1 = opj.createWorksheetPage('worksheet1');
 % createpage in active directory (pwd)
-graph1 = opj.createGraph('graph1');
+graph1 = opj.createGraphPage('graph1');
 
 opj.cd(folderpath);
 opj.pwd.toPath
 
 % createpage in active directory (pwd)
-worksheet2 = opj.createWorksheet('worksheet2');
+worksheet2 = opj.createWorksheetPage('worksheet2');
 % createpage in active directory (pwd)
-graph2 = opj.createGraph('graph2');
+graph2 = opj.createGraphPage('graph2');
 
 % Test cd error
 try
@@ -59,34 +59,34 @@ catch e
 end
 
 %% Worksheet functions
-colNum = worksheet1.getColNum
-columns = worksheet1.getColumns;
-size(columns)
-
-colNum = colNum+2
-worksheet1.setColNum(colNum);
-columns = worksheet1.getColumns;
-size(columns)
-
-colTypes = worksheet1.getColTypes
-colTypes = worksheet1.setColTypes([3,0,3,0]).getColTypes
-
-% generate data
-X = (1:1:100)'/180*pi;
-worksheet1.setData([X,sin(X)]);
-worksheet1.setData([X,cos(X)],0,2);
-
-% get data
-data = worksheet1.getData(ARRAYDATAFORMAT.ARRAY2D_NUMERIC);
-
-% set and get LongName, units, comments
-LongName = worksheet1.setColLongNames({'a','b','c','d'}).getColLongNames
-
-% set and get LongName, units, comments
-Units = worksheet1.setColUnits({'e','f','g','h'}).getColUnits
-
-% set and get LongName, units, comments
-comments = worksheet1.setColComments({'i','j','k','l'}).getColComments
+% colNum = worksheet1.getColNum
+% columns = worksheet1.getColumns;
+% size(columns)
+% 
+% colNum = colNum+2
+% worksheet1.setColNum(colNum);
+% columns = worksheet1.getColumns;
+% size(columns)
+% 
+% colTypes = worksheet1.getColTypes
+% colTypes = worksheet1.setColTypes([3,0,3,0]).getColTypes
+% 
+% % generate data
+% X = (1:1:100)'/180*pi;
+% worksheet1.setData([X,sin(X)]);
+% worksheet1.setData([X,cos(X)],0,2);
+% 
+% % get data
+% data = worksheet1.getData(ARRAYDATAFORMAT.ARRAY2D_NUMERIC);
+% 
+% % set and get LongName, units, comments
+% LongName = worksheet1.setColLongNames({'a','b','c','d'}).getColLongNames
+% 
+% % set and get LongName, units, comments
+% Units = worksheet1.setColUnits({'e','f','g','h'}).getColUnits
+% 
+% % set and get LongName, units, comments
+% comments = worksheet1.setColComments({'i','j','k','l'}).getColComments
 
 %% Graph functions
 

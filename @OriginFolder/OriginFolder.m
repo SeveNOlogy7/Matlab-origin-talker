@@ -3,7 +3,6 @@ classdef OriginFolder < OriginObject
     %   Detailed explanation goes here
     
     properties
-        name
         parent
         isRoot
     end
@@ -14,14 +13,14 @@ classdef OriginFolder < OriginObject
     
     methods (Access = public)
         function obj = OriginFolder(originFolderObj,parent,isRoot)
-            % OriginFolder()
             if nargin == 0
+                % OriginFolder()
                 obj.name = [];
                 obj.parent = [];
                 obj.isRoot = [];
                 obj.originObj = [];
-                % OriginFolder(originFolderObj,parent,isRoot)
             else
+                % OriginFolder(originFolderObj,parent,isRoot)
                 obj.name = originFolderObj.get('Name');
                 obj.parent = parent;
                 obj.isRoot = isRoot;

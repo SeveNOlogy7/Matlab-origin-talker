@@ -3,15 +3,13 @@ classdef OriginPage < OriginObject
     %   Detailed explanation goes here
     
     properties
-        name
         layerNum
     end
     
     methods (Access = public)
         
         function obj = OriginPage(originObj)
-            obj.originObj = originObj;
-            obj.name = originObj.invoke('Name');
+            obj = obj@OriginObject(originObj);
             obj.layerNum = originObj.invoke('Layers').invoke('Count');
         end
         

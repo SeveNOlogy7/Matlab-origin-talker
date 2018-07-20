@@ -1,17 +1,15 @@
-classdef OriginWorkSheet < OriginObject
+classdef OriginWorkSheet < OriginLayer
     %ORIGINWORKSHEET Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
-        name
         colNum
     end
     
     methods (Access = public)
         
         function obj = OriginWorkSheet(originObj)
-            obj.originObj = originObj;
-            obj.name = originObj.invoke('Name');
+            obj = obj@OriginLayer(originObj);
             obj.colNum = originObj.invoke('Cols');
         end
         
@@ -47,16 +45,6 @@ classdef OriginWorkSheet < OriginObject
                 end
                 obj.originObj.invoke('SetData', data, nRowOffset, nColOffset);
             end
-        end
-        
-        function obj = setName(obj,name)
-            obj.name = name;
-            obj.originObj.invoke('Name', name);
-        end
-        
-        function name = getName(obj)
-            obj.name = obj.originObj.invoke('Name');
-            name = obj.name;
         end
         
         function obj = setColNum(obj,colNum)

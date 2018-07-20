@@ -48,6 +48,7 @@ classdef OriginProject < OriginObject
     end
     
     methods (Access = public)
+        
         function delete(obj)
             obj.close();
             delete@OriginObject(obj);
@@ -58,8 +59,12 @@ classdef OriginProject < OriginObject
         end
         
         function close(obj)
-            obj.rootFolder.delete
-            obj.workingDirectory.delete
+            if ~isempty(obj.rootFolder)
+                obj.rootFolder.delete
+            end
+            if ~isempty(obj.workingDirectory)
+                obj.workingDirectory.delete
+            end
             if isa(obj.originObj,'COM.Origin_ApplicationSI')
                 obj.originObj.release;
             end

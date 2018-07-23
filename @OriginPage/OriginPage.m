@@ -35,6 +35,7 @@ classdef OriginPage < OriginObject
             obj.pageType = PAGETYPES(obj.originObj.invoke('Type'));
             pageType = obj.pageType;
         end
+        
     end
     
 end

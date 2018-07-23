@@ -68,6 +68,7 @@ classdef OriginProject < OriginObject
         function save(obj,filepath)
             if nargin == 1
                 % save(obj)
+                % read filepath from object
                 filepath = obj.filepath;
             end   
             % save(obj,filepath)
@@ -100,8 +101,9 @@ classdef OriginProject < OriginObject
             if nargin == 2
                 % pwd(obj,f)
                 if class(f) == 'OriginFolder'
+                    f.activate
+%                     obj.originObj.invoke('ActiveFolder',f.get('originObj'));
                     obj.activeFolder = f;
-                    obj.originObj.invoke('ActiveFolder',f.get('originObj'));
                     out = obj.activeFolder;
                 else
                     error('Not a Origin Folder');
@@ -121,7 +123,7 @@ classdef OriginProject < OriginObject
             if nargin == 2
                 % gcp(obj,p)
                 if isa(p,'OriginPage')
-                    p.get('originObj').invoke('Activate');
+                    p.activate;
                     out = obj.gcp;
                 else
                     error('Not a Origin Page');

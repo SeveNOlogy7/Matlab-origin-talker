@@ -48,6 +48,10 @@ classdef OriginObject < handle
             obj.name = obj.originObj.invoke('Name');
             name = obj.name;
         end
+        
+        function obj = activate(obj)
+            obj.originObj.invoke('Activate');
+        end
     end
     
 end

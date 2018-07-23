@@ -6,9 +6,15 @@ classdef OriginLayer < OriginObject
     end
     
     methods (Access = public)
+        
         function obj = OriginLayer(originObj)
             obj = obj@OriginObject(originObj);
         end
+        
+        function obj = execute(obj,cmdString)
+            obj.originObj.invoke('Execute', cmdString);
+        end
+        
     end
     
 end

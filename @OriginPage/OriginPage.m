@@ -36,6 +36,9 @@ classdef OriginPage < OriginObject
             pageType = obj.pageType;
         end
         
+        function obj = execute(obj,cmdString)
+            obj.originObj.invoke('Execute', cmdString);
+        end
     end
     
 end

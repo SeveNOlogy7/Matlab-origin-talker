@@ -12,9 +12,16 @@ classdef OriginProject < OriginObject
     methods (Access = public, Static = true)
         
         function opj = open(filepath)
-            [path,name,ext] = fileparts(filepath); %#ok<ASGLU>
-            if isempty(path) || isempty(name)
-                error('Invalid absolute filepath.')
+            if nargin == 1
+                %open(filepath)
+                [path,name,ext] = fileparts(filepath); %#ok<ASGLU>
+                if isempty(path) || isempty(name)
+                    error('Invalid absolute filepath.')
+                end
+            elseif nargin == 0
+               % Open(current origin instance or create a new project 
+               % in default location)
+               filepath = [];
             end
             % filepath is valid
             opj = OriginProject();
@@ -32,17 +39,20 @@ classdef OriginProject < OriginObject
             % for saving current project
             invoke(opj.originObj, 'IsModified', 'false');
             
-            if exist(filepath, 'file') == 2 % if file exist
-                invoke(opj.originObj, 'Load', opj.filepath); % load opj file
-                opj.isNew = false;
-            else
-                opj.save;   % this create a new empty opj file
+            if nargin == 1
+                if exist(filepath, 'file') == 2 % if file exist
+                    invoke(opj.originObj, 'Load', opj.filepath); % load opj file
+                    opj.isNew = false;
+                else
+                    opj.save;   % this create a new empty opj file
+                end
             end
             
             % Read data from opj file after loading opj file.
             opj.rootFolder = opj.root();
             opj.pwd(opj.rootFolder);   % set root folder as current working directory
-            
+           
+            opj.name = opj.originObj.invoke('Name');
         end
         
     end

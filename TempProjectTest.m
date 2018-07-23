@@ -12,4 +12,8 @@ workbook1 = opj.createWorksheetPage('workbook1');
 % set active page
 opj.gcp(workbook1)
 
+% test save function
+opj.save()
+opj.save([pwd,'\TempProjectTest.opj'])
+
 clear

@@ -65,8 +65,18 @@ classdef OriginProject < OriginObject
             delete@OriginObject(obj);
         end
         
-        function save(obj)
-            invoke(obj.originObj, 'Execute', ['save ',obj.filepath]);
+        function save(obj,filepath)
+            if nargin == 1
+                % save(obj)
+                filepath = obj.filepath;
+            end   
+            % save(obj,filepath)
+            % check file path, TODO: more reg check
+            if ~isempty(filepath)
+                invoke(obj.originObj, 'Execute', ['save ',filepath]);
+            else
+                warning('Invalid filepath. Nothing saved.');
+            end
         end
         
         function close(obj)
@@ -119,8 +129,9 @@ classdef OriginProject < OriginObject
             end
             if nargin == 1
                 % gcp(obj)
-                page_temp = OriginPage(obj.originObj.invoke('ActivePage'));
-                if ~isempty(page_temp.get('originObj'))
+                activePageObj = obj.originObj.invoke('ActivePage');
+                if ~isempty(activePageObj)
+                    page_temp = OriginPage(activePageObj);
                     switch(page_temp.getPageType)
                         case PAGETYPES.OPT_GRAPH
                             obj.activePage = OriginGraphPage(page_temp.get('originObj'));
@@ -131,7 +142,7 @@ classdef OriginProject < OriginObject
                     end
                     out = obj.activePage;
                 else
-                    oit = [];
+                    out = [];
                 end
                 
             end

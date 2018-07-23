@@ -6,7 +6,8 @@ classdef OriginProject < OriginObject
         filepath
         isNew
         rootFolder
-        workingDirectory
+        activeFolder
+        activePage
     end
     
     methods (Access = public, Static = true)
@@ -19,9 +20,9 @@ classdef OriginProject < OriginObject
                     error('Invalid absolute filepath.')
                 end
             elseif nargin == 0
-               % Open(current origin instance or create a new project 
-               % in default location)
-               filepath = [];
+                % Open(current origin instance or create a new project
+                % in default location)
+                filepath = [];
             end
             % filepath is valid
             opj = OriginProject();
@@ -51,7 +52,7 @@ classdef OriginProject < OriginObject
             % Read data from opj file after loading opj file.
             opj.rootFolder = opj.root();
             opj.pwd(opj.rootFolder);   % set root folder as current working directory
-           
+            
             opj.name = opj.originObj.invoke('Name');
         end
         
@@ -72,8 +73,8 @@ classdef OriginProject < OriginObject
             if ~isempty(obj.rootFolder)
                 obj.rootFolder.delete
             end
-            if ~isempty(obj.workingDirectory)
-                obj.workingDirectory.delete
+            if ~isempty(obj.activeFolder)
+                obj.activeFolder.delete
             end
             if isa(obj.originObj,'COM.Origin_ApplicationSI')
                 obj.originObj.release;
@@ -89,8 +90,9 @@ classdef OriginProject < OriginObject
             if nargin == 2
                 % pwd(obj,f)
                 if class(f) == 'OriginFolder'
-                    obj.workingDirectory = f;
+                    obj.activeFolder = f;
                     obj.originObj.invoke('ActiveFolder',f.get('originObj'));
+                    out = obj.activeFolder;
                 else
                     error('Not a Origin Folder');
                 end
@@ -100,8 +102,38 @@ classdef OriginProject < OriginObject
                 % always get origin Folder Object in case other references of
                 % current_working_directory destroy originFolderObj outside
                 % this fuction
-                obj.workingDirectory.originObj = obj.originObj.invoke('ActiveFolder');
-                out = obj.workingDirectory;
+                obj.activeFolder.originObj = obj.originObj.invoke('ActiveFolder');
+                out = obj.activeFolder;
+            end
+        end
+        
+        function out = gcp(obj,p)
+            if nargin == 2
+                % gcp(obj,p)
+                if isa(p,'OriginPage')
+                    p.get('originObj').invoke('Activate');
+                    out = obj.gcp;
+                else
+                    error('Not a Origin Page');
+                end
+            end
+            if nargin == 1
+                % gcp(obj)
+                page_temp = OriginPage(obj.originObj.invoke('ActivePage'));
+                if ~isempty(page_temp.get('originObj'))
+                    switch(page_temp.getPageType)
+                        case PAGETYPES.OPT_GRAPH
+                            obj.activePage = OriginGraphPage(page_temp.get('originObj'));
+                        case PAGETYPES.OPT_WORKSHEET
+                            obj.activePage = OriginWorkSheetPage(page_temp.get('originObj'));
+                        otherwise
+                            obj.activePage = page_temp;
+                    end
+                    out = obj.activePage;
+                else
+                    oit = [];
+                end
+                
             end
         end
         

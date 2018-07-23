@@ -4,6 +4,7 @@ classdef OriginPage < OriginObject
     
     properties
         layerNum
+        pageType
     end
     
     methods (Access = public)
@@ -11,6 +12,7 @@ classdef OriginPage < OriginObject
         function obj = OriginPage(originObj)
             obj = obj@OriginObject(originObj);
             obj.layerNum = originObj.invoke('Layers').invoke('Count');
+            obj.pageType = PAGETYPES(obj.originObj.invoke('Type'));
         end
         
         function Layers = getLayers(obj)
@@ -24,9 +26,14 @@ classdef OriginPage < OriginObject
             end
         end
         
-        function layerNum = getlayerNum(obj)
-            obj.layerNum = obj.ooriginObj.invoke('Layers').invoke('Count');
+        function layerNum = getLayerNum(obj)
+            obj.layerNum = obj.originObj.invoke('Layers').invoke('Count');
             layerNum = obj.layerNum;
+        end
+        
+        function pageType = getPageType(obj)
+            obj.pageType = PAGETYPES(obj.originObj.invoke('Type'));
+            pageType = obj.pageType;
         end
     end
     

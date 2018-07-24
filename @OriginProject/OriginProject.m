@@ -1,4 +1,4 @@
-classdef OriginProject < OriginObject
+classdef OriginProject < OriginBase
     %ORIGINFILE Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -62,7 +62,7 @@ classdef OriginProject < OriginObject
         
         function delete(obj)
             obj.close();
-            delete@OriginObject(obj);
+            delete@OriginBase(obj);
         end
         
         function save(obj,filepath)

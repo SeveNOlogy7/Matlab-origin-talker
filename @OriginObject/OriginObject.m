@@ -52,6 +52,10 @@ classdef OriginObject < handle
         function obj = activate(obj)
             obj.originObj.invoke('Activate');
         end
+        
+        function out = execute(obj,cmdString)
+            out = obj.originObj.invoke('Execute', cmdString);
+        end
     end
     
 end

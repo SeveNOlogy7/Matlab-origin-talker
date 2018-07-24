@@ -11,10 +11,6 @@ classdef OriginLayer < OriginObject
             obj = obj@OriginObject(originObj);
         end
         
-        function obj = execute(obj,cmdString)
-            obj.originObj.invoke('Execute', cmdString);
-        end
-        
     end
     
 end

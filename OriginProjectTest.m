@@ -98,13 +98,15 @@ comments = worksheet1.setColComments({'i','j','k','l'}).getColComments
 %% Graph functions
 
 
-%% Test Variable functions
+%% Test Variable & execute functions
 opj.newLTStr('s','Value');
 opj.LTStr('s');
 
 opj.newLTVar('v',pi);
 opj.LTVar('v');
 
+opj.getExecuted('v')
+opj.getExecuted('s')
 
 % opj.close;
 % clear

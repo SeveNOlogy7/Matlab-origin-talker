@@ -28,4 +28,7 @@ gl.xlabel('test2','top');
 gl.ylabel('test3','left');
 gl.ylabel('test3','right');
 
+% Test Variable & execute functions
+gl.getExecuted('xb.fsize')
+
 clear

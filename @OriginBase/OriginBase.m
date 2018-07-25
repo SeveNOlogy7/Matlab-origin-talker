@@ -36,8 +36,14 @@ classdef OriginBase < handle
         end
         
         function out = execute(obj,cmdString)
+            % execute commands
             out = obj.originObj.invoke('Execute', cmdString);
         end
+        
+    end
+    
+    methods (Abstract, Access = public)
+        out = getExecuted(obj,cmdString,returnType);
     end
     
 end

@@ -265,6 +265,26 @@ classdef OriginProject < OriginBase
             flag = abs(value - obj.LTVar(name))<1e-5;
         end
         
+        function out = getExecuted(obj,cmdString,returnType)
+            % get return value from command like 'xb.fsize =;'
+            % used as getExecuted(obj,'xb.fsize')
+            if nargin == 2
+                % getExecuted(obj,cmdString)
+                % use default returnType
+                returnType = 'Numeric';
+            end
+            % getExecuted(obj,cmdString,returnType)
+            switch returnType
+                case 'String'
+                    obj.execute(['String temp_string$ = ',cmdString, +'$;']);
+                    out = obj.LTStr('temp_string');
+                case 'Numeric'
+                    obj.execute(['double temp_numeric = ',cmdString, +';']);
+                    out = obj.LTVar('temp_numeric');
+                otherwise
+            end
+        end
+        
     end
 end
 

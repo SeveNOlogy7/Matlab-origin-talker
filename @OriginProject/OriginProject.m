@@ -60,6 +60,19 @@ classdef OriginProject < OriginBase
     
     methods (Access = public)
         
+        function obj = OriginProject(originObj)
+            if nargin == 0
+            elseif nargin == 1
+                % OriginProject(originObj)
+                obj.originObj = originObj;
+                obj.name = obj.originObj.invoke('Name');
+                obj.isNew = false;
+                obj.rootFolder = obj.root;
+                obj.activeFolder = obj.pwd;
+                obj.activePage = obj.gcp;
+            end
+        end
+        
         function delete(obj)
             obj.close();
             delete@OriginBase(obj);
@@ -70,7 +83,7 @@ classdef OriginProject < OriginBase
                 % save(obj)
                 % read filepath from object
                 filepath = obj.filepath;
-            end   
+            end
             % save(obj,filepath)
             % check file path, TODO: more reg check
             if ~isempty(filepath)
@@ -102,7 +115,7 @@ classdef OriginProject < OriginBase
                 % pwd(obj,f)
                 if class(f) == 'OriginFolder'
                     f.activate
-%                     obj.originObj.invoke('ActiveFolder',f.get('originObj'));
+                    %                     obj.originObj.invoke('ActiveFolder',f.get('originObj'));
                     obj.activeFolder = f;
                     out = obj.activeFolder;
                 else
@@ -114,7 +127,7 @@ classdef OriginProject < OriginBase
                 % always get origin Folder Object in case other references of
                 % current_working_directory destroy originFolderObj outside
                 % this fuction
-                obj.activeFolder.originObj = obj.originObj.invoke('ActiveFolder');
+                obj.activeFolder = OriginFolder(obj.originObj.invoke('ActiveFolder'));
                 out = obj.activeFolder;
             end
         end
@@ -220,6 +233,36 @@ classdef OriginProject < OriginBase
                     return
                 end
             end
+        end
+        
+        function stringValue = LTStr(obj,name,value)
+            if nargin == 2
+                % LTStr(obj,name)
+                stringValue = obj.originObj.invoke('LTStr',[name,'$']);
+            elseif nargin == 3
+                % LTStr(obj,name,value)
+                stringValue = obj.originObj.invoke('LTStr',[name,'$'],value);
+            end
+        end
+        
+        function numericValue = LTVar(obj,name,value)
+            if nargin == 2
+                % LTVar(obj,name)
+                numericValue = obj.originObj.invoke('LTVar',name);
+            elseif nargin == 3
+                % LTVar(obj,name,value)
+                numericValue = obj.originObj.invoke('LTVar',name,value);
+            end
+        end
+        
+        function flag = newLTStr(obj,name,value)
+            obj.execute(['String ',name,'$ = ',value]);
+            flag = strcmp(value,obj.LTStr(name));
+        end
+        
+        function flag = newLTVar(obj,name,value)
+            obj.execute(['double ',name,' = ',num2str(value)]);
+            flag = abs(value - obj.LTVar(name))<1e-5;
         end
         
     end

@@ -28,6 +28,14 @@ classdef OriginObject < OriginBase
         function obj = close(obj)
             obj.originObj.invoke('Destroy');
         end
+        
+        function app = application(obj)
+            app = OriginProject(obj.originObj.invoke('Application'));
+        end
+        
+        function p = getParent(obj)
+            p = OriginObject(obj.originObj.invoke('Parent'));
+        end
     end
     
 end

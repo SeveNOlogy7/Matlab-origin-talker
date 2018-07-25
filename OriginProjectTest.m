@@ -8,13 +8,16 @@ isNew = opj.get('isNew')
 filepath = opj.get('filepath')
 isNew = opj.set('isNew',true).get('isNew')
 
-% Origin Object test
+% OriginBase test
 name = opj.getOriginAttribute('Name')
 visible = opj.setOriginAttribute('Visible',true).getOriginAttribute('Visible')
 
 %% Folder functions
 % get root folder
 rf = opj.get('rootFolder');
+
+% OriginObject test
+app = rf.application;
 
 % create new folders
 % af = rf.mkdir('new folder').mkdir('new folder 2').mkdir('new folder3');
@@ -94,5 +97,14 @@ comments = worksheet1.setColComments({'i','j','k','l'}).getColComments
 
 %% Graph functions
 
-opj.close;
+
+%% Test Variable functions
+opj.newLTStr('s','Value');
+opj.LTStr('s');
+
+opj.newLTVar('v',pi);
+opj.LTVar('v');
+
+
+% opj.close;
 % clear

@@ -12,10 +12,12 @@ opj = OriginProject.open([pwd,'\TempProjectTest.opj'])
 % get active page
 graph1 = opj.gcp
 
-% create new workbook
+% test workbook creation and closure
 workbook1 = opj.createWorksheetPage('workbook1');
 % set active page
 opj.gcp(workbook1)
+% close workbook
+workbook1.close();
 
 % get layer1 from graph1
 gl = graph1.graphLayers(1);

@@ -19,7 +19,12 @@ classdef OriginFolder < OriginObject
                 obj.parent = [];
                 obj.isRoot = [];
                 obj.originObj = [];
-            else
+            elseif nargin == 1
+                % OriginFolder(originFolderObj)
+                obj.name = originFolderObj.get('Name');
+                obj.originObj = originFolderObj;
+                obj.parent = obj.getParent();
+            elseif nargin == 3
                 % OriginFolder(originFolderObj,parent,isRoot)
                 obj.name = originFolderObj.get('Name');
                 obj.parent = parent;
@@ -76,9 +81,9 @@ classdef OriginFolder < OriginObject
                                 % Todo: some reg here
                                 originFoldersObj.invoke('Add',S{ii});
                                 % get the real origin folder
-                                originFolderObj = originFoldersObj.invoke('FolderFromPath',S{ii});  %#ok<PROPLC>
+                                originFolderObj = originFoldersObj.invoke('FolderFromPath',S{ii});
                                 % generate the new folder object and return
-                                newFolder = OriginFolder(originFolderObj,obj,false); %#ok<PROPLC>
+                                newFolder = OriginFolder(originFolderObj,obj,false);
                             else
                                 newFolder = [];
                             end
@@ -125,6 +130,26 @@ classdef OriginFolder < OriginObject
         
         function p = toPath(obj)
             p = obj.originObj.invoke('path');
+        end
+        
+        function f = getParent(obj)
+            parentObj = obj.originObj.invoke('Parent');
+            % find out whether parentObj has parent
+            % rootfolder's parent is Application
+            % Application has no parents
+            try 
+                parentObj.invoke('Parent');
+                parentObjIsApplication = false;
+            catch
+                parentObjIsApplication = true;
+            end
+            if parentObjIsApplication
+                obj.isRoot = true;
+                f = [];
+            else
+                obj.isRoot = false;
+                f = OriginFolder(parentObj);
+            end
         end
         
     end

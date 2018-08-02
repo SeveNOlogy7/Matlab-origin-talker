@@ -100,6 +100,10 @@ classdef OriginWorkSheet < OriginLayer
             obj.setColAttributes('Units',Units);
         end
         
+        function p = getParent(obj)
+            p = OriginWorkSheetPage(obj.originObj.invoke('Parent'));
+        end
+        
     end
     
     methods (Access = private)

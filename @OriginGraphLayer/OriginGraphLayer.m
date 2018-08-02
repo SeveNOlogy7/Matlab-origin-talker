@@ -11,6 +11,10 @@ classdef OriginGraphLayer < OriginLayer
             obj = obj@OriginLayer(originObj);
         end
         
+        function p = getParent(obj)
+            p = OriginGraphPage(obj.originObj.invoke('Parent'));
+        end
+        
         function obj = rescale(obj)
             obj.execute('rescale;');
         end
@@ -20,23 +24,21 @@ classdef OriginGraphLayer < OriginLayer
                 case 1
                     % obj = xlabel(obj)
                     % clear all xlabel
-                    obj.execute('xb.text$ = "";');
-                    obj.execute('xt.text$ = "";');
+                    obj.execute('label -xb;');
+                    obj.execute('label -xt;');
                 case 2
                     % obj = xlabel(obj,text)
                     % set xlabel text in default position
-                    obj.execute(['xb.text$ = "',text,'";']);
+                    obj.execute(['label -xb "',text,'";']);
                 case 3
                     % obj = xlabel(obj,text,pos)
-                    % TODO: if label is not shown, then text is not set even
-                    % execute these commands
                     switch pos
-                        case 'bottom'
-                            obj.execute(['xb.text$ = "',text,'";']);
-                        case 'top'
-                            obj.execute(['xt.text$ = "',text,'";']);
+                        case 'Bottom'
+                            obj.execute(['label -xb "',text,'";']);
+                        case 'Top'
+                            obj.execute(['label -xt "',text,'";']);
                         otherwise
-                            warning('Invalid position, should be bottom or top.')
+                            warning('Invalid position, should be ''Bottom'' or ''Top''.')
                     end
                 otherwise
                     warning('Invalid parameters.')
@@ -48,23 +50,47 @@ classdef OriginGraphLayer < OriginLayer
                 case 1
                     % obj = ylabel(obj)
                     % clear all ylabel
-                    obj.execute('yl.text$ = "";');
-                    obj.execute('yr.text$ = "";');
+                    obj.execute('label -yl;');
+                    obj.execute('label -yr;');
                 case 2
                     % obj = ylabel(obj,text)
                     % set ylabel text in default position
-                    % TODO: if label is not shown, then text is not set even
-                    % execute these commands
-                    obj.execute(['yl.text$ = "',text,'";']);
+                    obj.execute(['label -yl "',text,'";']);
                 case 3
                     % obj = ylabel(obj,text,pos)
                     switch pos
-                        case 'left'
-                            obj.execute(['yl.text$ = "',text,'";']);
-                        case 'right'
-                            obj.execute(['yr.text$ = "',text,'";']);
+                        case 'Left'
+                            obj.execute(['label -yl "',text,'";']);
+                        case 'Right'
+                            obj.execute(['label -yr "',text,'";']);
                         otherwise
-                            warning('Invalid position, should be left or right.')
+                            warning('Invalid position, should be ''Left'' or ''Right''.')
+                    end
+                otherwise
+                    warning('Invalid parameters.')
+            end
+        end
+        
+        function obj = zlabel(obj,text,pos)
+            switch nargin
+                case 1
+                    % obj = zlabel(obj)
+                    % clear all ylabel
+                    obj.execute('label -zb;');
+                    obj.execute('label -zf;');
+                case 2
+                    % obj = zlabel(obj,text)
+                    % set zlabel text in default position
+                    obj.execute(['label -zb "',text,'";']);
+                case 3
+                    % obj = zlabel(obj,text,pos)
+                    switch pos
+                        case 'Back'
+                            obj.execute(['label -zb "',text,'";']);
+                        case 'Front'
+                            obj.execute(['label -zf "',text,'";']);
+                        otherwise
+                            warning('Invalid position, should be ''Back'' or ''Front''.')
                     end
                 otherwise
                     warning('Invalid parameters.')

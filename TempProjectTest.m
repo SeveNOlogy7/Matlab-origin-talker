@@ -23,12 +23,17 @@ workbook1.close();
 gl = graph1.graphLayers(1);
 
 % set label
-gl.xlabel('test1','bottom');
-gl.xlabel('test2','top');
-gl.ylabel('test3','left');
-gl.ylabel('test3','right');
+gl.xlabel('test1','Bottom');
+gl.xlabel('test2','Top');
+gl.ylabel('test3','Left');
+gl.ylabel('test3','Right');
 
 % Test Variable & execute functions
 gl.getExecuted('xb.fsize')
+gl.getExecuted('xb.text','String')
+
+% gl.executeOgs('C:\Dropbox (The University of Manchester)\Matlab-origin-talker\OgsScripts\PicAutoSize.ogs')
+gl.executeOgs('C:\Dropbox (The University of Manchester)\Matlab-origin-talker\OgsScripts\PicAutoSize.ogs','Layer')
+gl.executeOgs('C:\Dropbox (The University of Manchester)\Matlab-origin-talker\OgsScripts\PicAutoSize.ogs','Page')
 
 clear

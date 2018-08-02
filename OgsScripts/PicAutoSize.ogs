@@ -1,0 +1,12 @@
+//[Page]
+page.unit=2;
+page.height=472;  // unit - pixels
+page.width=591;
+page.zoomWhole=1;
+
+//[Layer]
+layer.unit=3;  // cm
+layer.width=6.5;
+layer.height=5.1;
+layer.left=0.8;
+layer.top=0.2;

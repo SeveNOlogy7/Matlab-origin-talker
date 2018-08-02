@@ -33,7 +33,12 @@ gl.getExecuted('xb.fsize')
 gl.getExecuted('xb.text','String')
 
 % gl.executeOgs('C:\Dropbox (The University of Manchester)\Matlab-origin-talker\OgsScripts\PicAutoSize.ogs')
-gl.executeOgs('C:\Dropbox (The University of Manchester)\Matlab-origin-talker\OgsScripts\PicAutoSize.ogs','Layer')
-gl.executeOgs('C:\Dropbox (The University of Manchester)\Matlab-origin-talker\OgsScripts\PicAutoSize.ogs','Page')
+gl.executeOgs([pwd,'\OgsScripts\PicAutoSize.ogs'],'Page')
+gl.executeOgs([pwd,'\OgsScripts\PicAutoSize.ogs'],'Layer')
+
+gl.execute('Layer.unit = 2;')
+gl.execute('Layer.unit = 2;','Layer.unit = 3;')
+gl.execute({'Layer.unit = 2;','Layer.unit = 3;'})
+
 
 clear

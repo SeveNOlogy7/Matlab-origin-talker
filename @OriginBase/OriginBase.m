@@ -35,10 +35,30 @@ classdef OriginBase < handle
             name = obj.name;
         end
         
-        function out = execute(obj,cmdString)
+        function out = execute(obj,cmdString,vargin)
             % execute commands
-            % TODO: add multiple cmdString support
-            out = obj.originObj.invoke('Execute', cmdString);
+            if nargin == 2
+                if isa(cmdString,'char')
+                    out = obj.originObj.invoke('Execute', cmdString);
+                elseif isa(cmdString,'cell')
+                    if size(cmdString,1)==1 || size(cmdString,2)==1
+                        for ii = 1:length(cmdString)
+                            out = obj.originObj.invoke('Execute', cmdString{ii});
+                            if out == 0
+                                warning(['Execution terminated at line ',num2str(ii)]);
+                                return
+                            end
+                        end
+                    else
+                        warning('Expecting 1-by-x or x-by-1 array.');
+                        out = 0;
+                        return
+                    end
+                end
+            elseif nargin > 2
+                vargin = {cmdString,vargin};
+                obj.execute(vargin);
+            end
         end
         
         function out = executeOgs(obj,scriptPath,sectionName)

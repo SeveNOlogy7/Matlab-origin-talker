@@ -1,12 +1,17 @@
-//[Page]
-page.unit=2;
-page.height=472;  // unit - pixels
-page.width=591;
+[Page]
+layer.unit = 5;
+width_pxs = layer.width;
+layer.unit = 3;
+dpc = width_pxs/layer.width;
+
+page.unit=2;    // cm
+page.height=20*dpc;  // pixel
+page.width=25*dpc;
 page.zoomWhole=1;
 
-//[Layer]
-layer.unit=3;  // cm
-layer.width=6.5;
-layer.height=5.1;
-layer.left=0.8;
-layer.top=0.2;
+[Layer]
+layer.unit=3;   // cm
+layer.width=20;
+layer.height=15;
+layer.left=4;
+layer.top=2;

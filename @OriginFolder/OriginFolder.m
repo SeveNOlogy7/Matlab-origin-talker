@@ -63,17 +63,21 @@ classdef OriginFolder < OriginObject
             end
         end
         
-        function newFolder = mkdir(obj,dirName,varargin)
-            % check if folder exist. because add a folder with the same
+        function newFolder = mkdir(obj,newDirName,varargin)
+            % Create a new dictory in the folder specified by obj, return
+            % the newly created dictory as an OriginFolder object
+            
+            % Check if folder exist. Because adding a folder with the same
             % name as an existing folder will delete everything it contains
-            S = regexp(dirName, filesep, 'split');
+            % and Origin gives you no warning.
+            S = regexp(newDirName, filesep, 'split');
             if ~isempty(S)
                 newFolder = obj;
                 for ii = 1:length(S)
                     if ~isempty(S{ii})
                         try
                             % check if can open folder if exists
-                            newFolder = newFolder.cd(dirName);
+                            newFolder = newFolder.cd(newDirName);
                         catch e
                             if strcmp(e.identifier,'OriginFolder:pathNotFound')
                                 % folder does not exist (or TODO path is invalid)
@@ -100,6 +104,7 @@ classdef OriginFolder < OriginObject
         function f = cd(obj,path)
             % Return a new folder using obj as base and path as a relative
             % path
+            % This does nor change the active folder of the Origin session
             % assume a path like this '\new folder\new folder 2\new folder3\'
             % or 'new folder\new folder 2\new folder3'
             f = obj;

@@ -36,11 +36,14 @@ classdef OriginBase < handle
         end
         
         function out = execute(obj,cmdString,vargin)
-            % execute commands
+            % Execute commands in Origin context
             if nargin == 2
+                % obj.execute(cmdString)
                 if isa(cmdString,'char')
+                    % Execute a single command string
                     out = obj.originObj.invoke('Execute', cmdString);
                 elseif isa(cmdString,'cell')
+                    % Execute command strings in a cell array (vectors, not matrice)
                     if size(cmdString,1)==1 || size(cmdString,2)==1
                         for ii = 1:length(cmdString)
                             out = obj.originObj.invoke('Execute', cmdString{ii});
@@ -56,12 +59,15 @@ classdef OriginBase < handle
                     end
                 end
             elseif nargin > 2
+                % obj.execute(cmdString1,cmdString2,cmdString3...)
+                % Execute multiple command strings
                 vargin = {cmdString,vargin};
                 obj.execute(vargin);
             end
         end
         
         function out = executeOgs(obj,scriptPath,sectionName)
+            % Execute the Origin Script .ogs file
             if nargin >= 2
                 % simple reg expression check
                 if regexpi(scriptPath,'.*\.ogs')>0

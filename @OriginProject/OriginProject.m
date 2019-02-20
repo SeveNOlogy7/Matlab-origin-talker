@@ -111,6 +111,10 @@ classdef OriginProject < OriginBase
         end
         
         function out = pwd(obj,f)
+            % set active folder
+            % If passed with a OriginFolder object, set it as the active
+            % folder in Origin
+            % If no parameter passed, return the Origin active folder.  
             if nargin == 2
                 % pwd(obj,f)
                 if class(f) == 'OriginFolder'
@@ -133,6 +137,10 @@ classdef OriginProject < OriginBase
         end
         
         function out = gcp(obj,p)
+            % Get current page
+            % If an OriginPage object is specified, set the page as active
+            % page. If use with no parameters, return the current active
+            % page.
             if nargin == 2
                 % gcp(obj,p)
                 if isa(p,'OriginPage')
@@ -164,10 +172,15 @@ classdef OriginProject < OriginBase
         end
         
         function f = root(obj)
+            % Get root folder
+            % return root folder as an OriginFolder object
             f = OriginFolder(obj.originObj.get('RootFolder'),0,true);
         end
         
         function f = cd(obj,varargin)
+            % Change directory (active page)
+            % the directory path string using path relative to rootfolder
+            % but has no support like ..\ yet
             if nargin == 2
                 if isa(varargin{1},'char')
                     % OriginFolder(obj,path)
@@ -188,6 +201,7 @@ classdef OriginProject < OriginBase
         end
         
         function strPage = createPage(obj,pageType,pageName,templateName)
+            % Create a Page in Origin
             if nargin == 3
                 % createPage(obj,pagetype,pagename)
                 strPage = invoke(obj.originObj, 'CreatePage', uint32(pageType), pageName, 'Origin');
@@ -198,6 +212,7 @@ classdef OriginProject < OriginBase
         end
         
         function worksheetPage = createWorksheetPage(obj,bookName,templateName)
+            % Create a Worksheet Page in Origin
             if nargin == 2
                 % createPage(obj,bookName)
                 strBook = obj.createPage(PAGETYPES.OPT_WORKSHEET, bookName, 'Origin');
@@ -217,6 +232,7 @@ classdef OriginProject < OriginBase
         end
         
         function graphPage = createGraphPage(obj,graphName, templateName)
+            % Create a Graph Page in Origin
             if nargin == 2
                 % createPage(obj,bookName)
                 strGraph = obj.createPage(PAGETYPES.OPT_GRAPH, graphName, 'Origin');
@@ -236,6 +252,10 @@ classdef OriginProject < OriginBase
         end
         
         function stringValue = LTStr(obj,name,value)
+            % LabTalk Str variable interaction
+            % If pass a LTStr variable name, return the value of the variable
+            % If pass name value pair, set the LTStr variable accordingly
+            % with the value
             if nargin == 2
                 % LTStr(obj,name)
                 stringValue = obj.originObj.invoke('LTStr',[name,'$']);
@@ -246,6 +266,10 @@ classdef OriginProject < OriginBase
         end
         
         function numericValue = LTVar(obj,name,value)
+            % LabTalk numeric variable interaction
+            % If pass a LT variable name, return the value of the variable
+            % If pass name value pair, set the LT variable accordingly
+            % with the value
             if nargin == 2
                 % LTVar(obj,name)
                 numericValue = obj.originObj.invoke('LTVar',name);
@@ -256,11 +280,13 @@ classdef OriginProject < OriginBase
         end
         
         function flag = newLTStr(obj,name,value)
+            % Create a LabTalk String variable and set the value
             obj.execute(['String ',name,'$ = ',value]);
             flag = strcmp(value,obj.LTStr(name));
         end
         
         function flag = newLTVar(obj,name,value)
+            % Create a LabTalk numeric variable and set the value
             obj.execute(['double ',name,' = ',num2str(value)]);
             flag = abs(value - obj.LTVar(name))<1e-5;
         end
@@ -268,6 +294,10 @@ classdef OriginProject < OriginBase
         function out = getExecuted(obj,cmdString,returnType)
             % get return value from command like 'xb.fsize =;'
             % used as getExecuted(obj,'xb.fsize')
+            % Noticed that this fuction are currently the same as the one
+            % in OriginObject, however, the OriginObject.getExecuted is to
+            % execute command in the context of that specific Origin Object
+            % (Page, layer, etc...)
             if nargin == 2
                 % getExecuted(obj,cmdString)
                 % use default returnType

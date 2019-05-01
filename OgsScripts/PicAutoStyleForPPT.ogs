@@ -1,0 +1,38 @@
+[Page]
+layer.unit = 5;
+width_pxs = layer.width;
+layer.unit = 3;
+dpc = width_pxs/layer.width;
+
+page.unit=2;    // cm
+page.height=20*dpc;  // pixel
+page.width=25*dpc;
+page.zoomWhole=1;
+
+[Layer]
+layer.unit=3;   // cm
+layer.width=20;
+layer.height=15;
+layer.left=4;
+layer.top=2;
+
+layer.X.thickness=2.5;
+layer.x.label.font = font(Arial);
+layer.x.label.bold = 1;
+layer.x.label.pt = 22;
+layer.y.thickness=2.5;
+layer.y.label.font = font(Arial);
+layer.y.label.bold = 1;
+layer.y.label.pt = 22;
+
+xb.font = font(Arial);
+xb.fsize = 30;
+%A = xb.text$;
+xb.text$ = \b(%A);
+yl.font = font(Arial);
+yl.fsize = 30;
+%A = yl.text$;
+yl.text$ = \b(%A);
+
+Layer_SetDefaultDataPlotsStyle;
+Layer_SetNormalTextStyle;
